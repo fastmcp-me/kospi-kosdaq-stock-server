@@ -31,15 +31,18 @@ def load_all_tickers() -> Dict[str, str]:
         Example: {"005930": "삼성전자", "035720": "카카오", ...}
     """
     try:
-        logging.debug("Start loading all KOSPI/KOSDAQ ticker symbols")
+        global TICKER_MAP
+
+        # If TICKER_MAP already has data, return it
+        if TICKER_MAP:
+            logging.debug(f"Returning cached ticker information with {len(TICKER_MAP)} stocks")
+            return TICKER_MAP
+
+        logging.debug("No cached data found. Loading KOSPI/KOSDAQ ticker symbols")
 
         # Retrieve data based on today's date
         today = get_nearest_business_day_in_a_week()
         logging.debug(f"Reference date: {today}")
-
-        # Retrieve ticker-name mappings for KOSPI and KOSDAQ
-        global TICKER_MAP
-        TICKER_MAP = {}
 
         # get_market_ticker_and_name() returns a Series,
         # where the index is the ticker and the values are the stock names
