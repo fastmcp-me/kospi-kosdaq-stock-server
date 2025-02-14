@@ -15,7 +15,7 @@ logging.basicConfig(
 
 # Create MCP server (add pykrx dependency)
 mcp = FastMCP(
-    "stock-krx-server",
+    "kospi-kosdaq-stock-server",
     dependencies=["pykrx"]
 )
 
