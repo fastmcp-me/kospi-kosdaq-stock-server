@@ -1,6 +1,7 @@
 # kospi-kosdaq-stock-server
 
 [![PyPI version](https://badge.fury.io/py/kospi-kosdaq-stock-server.svg)](https://badge.fury.io/py/kospi-kosdaq-stock-server)
+[![smithery badge](https://smithery.ai/badge/@dragon1086/kospi-kosdaq-stock-server)](https://smithery.ai/server/@dragon1086/kospi-kosdaq-stock-server)
 
 <a href="https://glama.ai/mcp/servers/i1judi5h55">
   <img width="380" height="200" src="https://glama.ai/mcp/servers/i1judi5h55/badge" />
@@ -46,6 +47,15 @@ An MCP server that provides KOSPI/KOSDAQ stock data using FastMCP.
 
 This package requires [uv](https://github.com/astral-sh/uv) for installation and execution.
 
+### Installing via Smithery
+
+To install KOSPI/KOSDAQ Stock Data Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@dragon1086/kospi-kosdaq-stock-server):
+
+```bash
+npx -y @smithery/cli install @dragon1086/kospi-kosdaq-stock-server --client claude
+```
+
+### Manual Installation
 ```bash
 # Create and activate a virtual environment
 uv venv .venv
