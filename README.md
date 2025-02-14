@@ -2,6 +2,10 @@
 
 [![PyPI version](https://badge.fury.io/py/kospi-kosdaq-stock-server.svg)](https://badge.fury.io/py/kospi-kosdaq-stock-server)
 
+<a href="https://glama.ai/mcp/servers/i1judi5h55">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/i1judi5h55/badge" />
+</a>
+
 An MCP server that provides KOSPI/KOSDAQ stock data using FastMCP.
 
 ## Features
