@@ -1,11 +1,12 @@
-from mcp.server.fastmcp import FastMCP
-from typing import Dict, Any
-from pykrx.stock.stock_api import get_market_ohlcv, get_nearest_business_day_in_a_week, get_market_cap, get_market_fundamental_by_date, get_market_trading_volume_by_date
-from pykrx.website.krx.market.wrap import get_market_ticker_and_name
+import json
 import logging
 from datetime import datetime
-import json
-import os
+from typing import Dict, Any
+
+from mcp.server.fastmcp import FastMCP
+from pykrx.stock.stock_api import get_market_ohlcv, get_nearest_business_day_in_a_week, get_market_cap, \
+    get_market_fundamental_by_date, get_market_trading_volume_by_date
+from pykrx.website.krx.market.wrap import get_market_ticker_and_name
 
 # Configure logging
 logging.basicConfig(
@@ -343,16 +344,10 @@ def get_stock_trading_volume(fromdate: str, todate: str, ticker: str) -> Dict[st
         ticker   (str): Stock ticker symbol
 
     Returns:
-        DataFrame:
-            >> get_stock_trading_volume("20210104", "20210108", "005930")
-                                    Volume                             Trading Value
-                                      Sell       Buy    Net Buy            Sell            Buy         Net Buy
-                Investor Type
-                Financial Investment    29455909   26450600  -3005309   2580964135000   2309054317700  -271909817300
-                Insurance         1757287     509535  -1247752    153322228800     44505136200  -108817092600
-                Trust         2950680    1721970  -1228710    258073006600    150715203700  -107357802900
-                Private Equity          745727     696135    -49592     65167773900     60862926800    -4304847100
-                Bank           38675      46394      7719      3369626100      4004806100      635180000
+        DataFrame with columns:
+        - Volume (Sell/Buy/Net Buy)
+        - Trading Value (Sell/Buy/Net Buy)
+        Broken down by investor types (Financial Investment, Insurance, Trust, etc.)
     """
     # Validate and convert date format
     def validate_date(date_str: str) -> str:
