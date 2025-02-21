@@ -143,6 +143,8 @@ def get_stock_ohlcv(fromdate: str, todate: str, ticker: str, adjusted: bool = Tr
     # Validate and convert date format
     def validate_date(date_str: str) -> str:
         try:
+            if isinstance(date_str, int):
+                date_str = str(date_str)
             # Convert if in YYYY-MM-DD format
             if '-' in date_str:
                 parsed_date = datetime.strptime(date_str, '%Y-%m-%d')
@@ -241,6 +243,8 @@ def get_stock_market_cap(fromdate: str, todate: str, ticker: str) -> Dict[str, A
     # Validate and convert date format
     def validate_date(date_str: str) -> str:
         try:
+            if isinstance(date_str, int):
+                date_str = str(date_str)
             # Convert if in YYYY-MM-DD format
             if '-' in date_str:
                 parsed_date = datetime.strptime(date_str, '%Y-%m-%d')
@@ -300,6 +304,8 @@ def get_stock_fundamental(fromdate: str, todate: str, ticker: str) -> Dict[str, 
     # Validate and convert date format
     def validate_date(date_str: str) -> str:
         try:
+            if isinstance(date_str, int):
+                date_str = str(date_str)
             if '-' in date_str:
                 parsed_date = datetime.strptime(date_str, '%Y-%m-%d')
                 return parsed_date.strftime('%Y%m%d')
@@ -352,6 +358,8 @@ def get_stock_trading_volume(fromdate: str, todate: str, ticker: str) -> Dict[st
     # Validate and convert date format
     def validate_date(date_str: str) -> str:
         try:
+            if isinstance(date_str, int):
+                date_str = str(date_str)
             if '-' in date_str:
                 parsed_date = datetime.strptime(date_str, '%Y-%m-%d')
                 return parsed_date.strftime('%Y%m%d')
