@@ -1,7 +1,7 @@
 import json
 import logging
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Union
 
 from mcp.server.fastmcp import FastMCP
 from pykrx.stock.stock_api import get_market_ohlcv, get_nearest_business_day_in_a_week, get_market_cap, \
@@ -118,7 +118,7 @@ def search_stock_data_prompt() -> str:
     """
 
 @mcp.tool()
-def get_stock_ohlcv(fromdate: str, todate: str, ticker: str, adjusted: bool = True) -> Dict[str, Any]:
+def get_stock_ohlcv(fromdate: Union[str, int], todate: Union[str, int], ticker: str, adjusted: bool = True) -> Dict[str, Any]:
     """Retrieves OHLCV (Open/High/Low/Close/Volume) data for a specific stock.
 
     Args:
@@ -141,7 +141,7 @@ def get_stock_ohlcv(fromdate: str, todate: str, ticker: str, adjusted: bool = Tr
             2021-01-18  86600  87300  84100  85000  43227951
     """
     # Validate and convert date format
-    def validate_date(date_str: str) -> str:
+    def validate_date(date_str: Union[str, int]) -> str:
         try:
             if isinstance(date_str, int):
                 date_str = str(date_str)
@@ -221,7 +221,7 @@ def get_stock_data_prompt() -> str:
     """
 
 @mcp.tool()
-def get_stock_market_cap(fromdate: str, todate: str, ticker: str) -> Dict[str, Any]:
+def get_stock_market_cap(fromdate: Union[str, int], todate: Union[str, int], ticker: str) -> Dict[str, Any]:
     """Retrieves market capitalization data for a specific stock.
 
     Args:
@@ -241,7 +241,7 @@ def get_stock_market_cap(fromdate: str, todate: str, ticker: str) -> Dict[str, A
             2015-07-20  187806654675000  128928  165366199000  147299337
     """
     # Validate and convert date format
-    def validate_date(date_str: str) -> str:
+    def validate_date(date_str: Union[str, int]) -> str:
         try:
             if isinstance(date_str, int):
                 date_str = str(date_str)
@@ -282,7 +282,7 @@ def get_stock_market_cap(fromdate: str, todate: str, ticker: str) -> Dict[str, A
         return json.dumps({"error": error_message})
 
 @mcp.tool()
-def get_stock_fundamental(fromdate: str, todate: str, ticker: str) -> Dict[str, Any]:
+def get_stock_fundamental(fromdate: Union[str, int], todate: Union[str, int], ticker: str) -> Dict[str, Any]:
     """Retrieves fundamental data (PER/PBR/Dividend Yield) for a specific stock.
 
     Args:
@@ -302,7 +302,7 @@ def get_stock_fundamental(fromdate: str, todate: str, ticker: str) -> Dict[str, 
                 2021-01-04  37528  26.218750  2.210938  3166  1.709961  1416
     """
     # Validate and convert date format
-    def validate_date(date_str: str) -> str:
+    def validate_date(date_str: Union[str, int]) -> str:
         try:
             if isinstance(date_str, int):
                 date_str = str(date_str)
@@ -341,7 +341,7 @@ def get_stock_fundamental(fromdate: str, todate: str, ticker: str) -> Dict[str, 
         return json.dumps({"error": error_message})
 
 @mcp.tool()
-def get_stock_trading_volume(fromdate: str, todate: str, ticker: str) -> Dict[str, Any]:
+def get_stock_trading_volume(fromdate: Union[str, int], todate: Union[str, int], ticker: str) -> Dict[str, Any]:
     """Retrieves trading volume by investor type for a specific stock.
 
     Args:
@@ -356,7 +356,7 @@ def get_stock_trading_volume(fromdate: str, todate: str, ticker: str) -> Dict[st
         Broken down by investor types (Financial Investment, Insurance, Trust, etc.)
     """
     # Validate and convert date format
-    def validate_date(date_str: str) -> str:
+    def validate_date(date_str: Union[str, int]) -> str:
         try:
             if isinstance(date_str, int):
                 date_str = str(date_str)
