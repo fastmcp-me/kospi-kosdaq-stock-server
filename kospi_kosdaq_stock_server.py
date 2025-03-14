@@ -118,7 +118,7 @@ def search_stock_data_prompt() -> str:
     """
 
 @mcp.tool()
-def get_stock_ohlcv(fromdate: Union[str, int], todate: Union[str, int], ticker: str, adjusted: bool = True) -> Dict[str, Any]:
+def get_stock_ohlcv(fromdate: Union[str, int], todate: Union[str, int], ticker: Union[str, int], adjusted: bool = True) -> Dict[str, Any]:
     """Retrieves OHLCV (Open/High/Low/Close/Volume) data for a specific stock.
 
     Args:
@@ -155,9 +155,15 @@ def get_stock_ohlcv(fromdate: Union[str, int], todate: Union[str, int], ticker: 
         except ValueError:
             raise ValueError(f"Date must be in YYYYMMDD format. Input value: {date_str}")
 
+    def validate_ticker(ticker_str: Union[str, int]) -> str:
+        if isinstance(ticker_str, int):
+            return str(ticker_str)
+        return ticker_str
+
     try:
         fromdate = validate_date(fromdate)
         todate = validate_date(todate)
+        ticker = validate_ticker(ticker)
 
         logging.debug(f"Retrieving stock OHLCV data: {ticker}, {fromdate}-{todate}, adjusted={adjusted}")
 
@@ -221,7 +227,7 @@ def get_stock_data_prompt() -> str:
     """
 
 @mcp.tool()
-def get_stock_market_cap(fromdate: Union[str, int], todate: Union[str, int], ticker: str) -> Dict[str, Any]:
+def get_stock_market_cap(fromdate: Union[str, int], todate: Union[str, int], ticker: Union[str, int]) -> Dict[str, Any]:
     """Retrieves market capitalization data for a specific stock.
 
     Args:
@@ -255,9 +261,15 @@ def get_stock_market_cap(fromdate: Union[str, int], todate: Union[str, int], tic
         except ValueError:
             raise ValueError(f"Date must be in YYYYMMDD format. Input value: {date_str}")
 
+    def validate_ticker(ticker_str: Union[str, int]) -> str:
+        if isinstance(ticker_str, int):
+            return str(ticker_str)
+        return ticker_str
+
     try:
         fromdate = validate_date(fromdate)
         todate = validate_date(todate)
+        ticker = validate_ticker(ticker)
 
         logging.debug(f"Retrieving stock market capitalization data: {ticker}, {fromdate}-{todate}")
 
@@ -282,7 +294,7 @@ def get_stock_market_cap(fromdate: Union[str, int], todate: Union[str, int], tic
         return json.dumps({"error": error_message})
 
 @mcp.tool()
-def get_stock_fundamental(fromdate: Union[str, int], todate: Union[str, int], ticker: str) -> Dict[str, Any]:
+def get_stock_fundamental(fromdate: Union[str, int], todate: Union[str, int], ticker: Union[str, int]) -> Dict[str, Any]:
     """Retrieves fundamental data (PER/PBR/Dividend Yield) for a specific stock.
 
     Args:
@@ -314,9 +326,15 @@ def get_stock_fundamental(fromdate: Union[str, int], todate: Union[str, int], ti
         except ValueError:
             raise ValueError(f"Date must be in YYYYMMDD format. Input value: {date_str}")
 
+    def validate_ticker(ticker_str: Union[str, int]) -> str:
+        if isinstance(ticker_str, int):
+            return str(ticker_str)
+        return ticker_str
+
     try:
         fromdate = validate_date(fromdate)
         todate = validate_date(todate)
+        ticker = validate_ticker(ticker)
 
         logging.debug(f"Retrieving stock fundamental data: {ticker}, {fromdate}-{todate}")
 
@@ -341,7 +359,7 @@ def get_stock_fundamental(fromdate: Union[str, int], todate: Union[str, int], ti
         return json.dumps({"error": error_message})
 
 @mcp.tool()
-def get_stock_trading_volume(fromdate: Union[str, int], todate: Union[str, int], ticker: str) -> Dict[str, Any]:
+def get_stock_trading_volume(fromdate: Union[str, int], todate: Union[str, int], ticker: Union[str, int]) -> Dict[str, Any]:
     """Retrieves trading volume by investor type for a specific stock.
 
     Args:
@@ -368,9 +386,15 @@ def get_stock_trading_volume(fromdate: Union[str, int], todate: Union[str, int],
         except ValueError:
             raise ValueError(f"Date must be in YYYYMMDD format. Input value: {date_str}")
 
+    def validate_ticker(ticker_str: Union[str, int]) -> str:
+        if isinstance(ticker_str, int):
+            return str(ticker_str)
+        return ticker_str
+
     try:
         fromdate = validate_date(fromdate)
         todate = validate_date(todate)
+        ticker = validate_ticker(ticker)
 
         logging.debug(f"Retrieving stock trading volume by investor type: {ticker}, {fromdate}-{todate}")
 
