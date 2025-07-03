@@ -180,12 +180,12 @@ def get_stock_ohlcv(fromdate: Union[str, int], todate: Union[str, int], ticker: 
         )
         result = dict(sorted_items)
 
-        return json.dumps(result)
+        return result
 
     except Exception as e:
         error_message = f"Data retrieval failed: {str(e)}"
         logging.error(error_message)
-        return json.dumps({"error": error_message})
+        return {"error": error_message}
 
 @mcp.resource("stock://format-guide")
 def get_format_guide() -> str:
@@ -286,12 +286,12 @@ def get_stock_market_cap(fromdate: Union[str, int], todate: Union[str, int], tic
         )
         result = dict(sorted_items)
 
-        return json.dumps(result)
+        return result
 
     except Exception as e:
         error_message = f"Data retrieval failed: {str(e)}"
         logging.error(error_message)
-        return json.dumps({"error": error_message})
+        return {"error": error_message}
 
 @mcp.tool()
 def get_stock_fundamental(fromdate: Union[str, int], todate: Union[str, int], ticker: Union[str, int]) -> Dict[str, Any]:
@@ -351,12 +351,12 @@ def get_stock_fundamental(fromdate: Union[str, int], todate: Union[str, int], ti
         )
         result = dict(sorted_items)
 
-        return json.dumps(result)
+        return result
 
     except Exception as e:
         error_message = f"Data retrieval failed: {str(e)}"
         logging.error(error_message)
-        return json.dumps({"error": error_message})
+        return {"error": error_message}
 
 @mcp.tool()
 def get_stock_trading_volume(fromdate: Union[str, int], todate: Union[str, int], ticker: Union[str, int]) -> Dict[str, Any]:
