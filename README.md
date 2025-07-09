@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/dragon1086-kospi-kosdaq-stock-server-badge.png)](https://mseep.ai/app/dragon1086-kospi-kosdaq-stock-server)
+
 # kospi-kosdaq-stock-server
 
 [![PyPI version](https://badge.fury.io/py/kospi-kosdaq-stock-server.svg)](https://badge.fury.io/py/kospi-kosdaq-stock-server)
