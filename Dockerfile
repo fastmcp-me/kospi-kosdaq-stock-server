@@ -15,14 +15,21 @@ ENV UV_LINK_MODE=copy
 COPY pyproject.toml uv.lock /app/
 
 # Install the project's dependencies using the lockfile
-RUN --mount=type=cache,target=/root/.cache/uv     uv sync --frozen --no-install-project --no-dev --no-editable
+# Build stage can use root - this is isolated and temporary
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project --no-dev --no-editable
 
 # Add the rest of the project source code and install it
 ADD . /app
-RUN --mount=type=cache,target=/root/.cache/uv     uv sync --frozen --no-dev --no-editable
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev --no-editable
 
-# Second stage to reduce image size
+# Second stage to reduce image size - RUNTIME SECURITY FOCUS
 FROM python:3.12-slim-bookworm
+
+# Create a non-root user for runtime security
+RUN groupadd -r -g 1001 app && \
+    useradd -r -u 1001 -g app -m -d /home/app -s /bin/bash app
 
 WORKDIR /app
 
@@ -30,8 +37,14 @@ WORKDIR /app
 COPY --from=uv /root/.local /root/.local
 COPY --from=uv --chown=app:app /app/.venv /app/.venv
 
+# Ensure app user owns the application directory
+RUN chown -R app:app /app
+
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
+
+# CRITICAL: Switch to non-root user before runtime
+USER app
 
 # Define the entry point for the MCP server
 ENTRYPOINT ["python", "-m", "kospi_kosdaq_stock_server"]
