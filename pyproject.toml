@@ -8,6 +8,7 @@ dependencies = [
     "requests",
     "pykrx",
     "mcp>=0.1.0",
+    "setuptools",
 ]
 authors = [
     {name = "Sangrok Mun", email = "munsangrok@gmail.com"},
