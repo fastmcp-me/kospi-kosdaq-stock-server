@@ -413,12 +413,13 @@ wheels = [
 
 [[package]]
 name = "kospi-kosdaq-stock-server"
-version = "0.1.22"
+version = "0.1.24"
 source = { editable = "." }
 dependencies = [
     { name = "mcp" },
     { name = "pykrx" },
     { name = "requests" },
+    { name = "setuptools" },
 ]
 
 [package.metadata]
@@ -426,6 +427,7 @@ requires-dist = [
     { name = "mcp", specifier = ">=0.1.0" },
     { name = "pykrx" },
     { name = "requests" },
+    { name = "setuptools" },
 ]
 
 [[package]]
