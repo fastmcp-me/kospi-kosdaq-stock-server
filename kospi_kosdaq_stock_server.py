@@ -5,7 +5,7 @@ from typing import Dict, Any, Union
 
 from mcp.server.fastmcp import FastMCP
 from pykrx.stock.stock_api import get_market_ohlcv, get_nearest_business_day_in_a_week, get_market_cap, \
-    get_market_fundamental_by_date, get_market_trading_volume_by_date
+    get_market_fundamental_by_date, get_market_trading_volume_by_date, get_index_ohlcv_by_date
 from pykrx.website.krx.market.wrap import get_market_ticker_and_name
 
 # Configure logging
@@ -105,6 +105,11 @@ def search_stock_data_prompt() -> str:
        Retrieve trading volume by investor type:
        get_stock_trading_volume("start_date", "end_date", "ticker")
 
+       Retrieve index OHLCV data (KOSPI, KOSDAQ, etc.):
+       get_index_ohlcv("start_date", "end_date", "ticker", freq="d")
+       - ticker: 1001 for KOSPI, 2001 for KOSDAQ
+       - freq: "d" for daily, "m" for monthly, "y" for yearly
+
     Example) To retrieve data for Samsung Electronics in January 2024:
     1. load_all_tickers()  # Load all tickers
     2. Refer to stock://tickers  # Check Samsung Electronics = 005930
@@ -115,6 +120,9 @@ def search_stock_data_prompt() -> str:
        get_stock_fundamental("20240101", "20240131", "005930")  # Retrieve fundamental data
        or
        get_stock_trading_volume("20240101", "20240131", "005930")  # Retrieve trading volume
+
+    Example) To retrieve KOSPI index data for January 2021:
+       get_index_ohlcv("20210101", "20210131", "1001", freq="d")  # Daily KOSPI data
     """
 
 @mcp.tool()
@@ -418,8 +426,87 @@ def get_stock_trading_volume(fromdate: Union[str, int], todate: Union[str, int],
         logging.error(error_message)
         return {"error": error_message}
 
+
+@mcp.tool()
+def get_index_ohlcv(fromdate: Union[str, int], todate: Union[str, int], ticker: Union[str, int], freq: str = 'd') -> \
+Dict[str, Any]:
+    """Retrieves OHLCV data for a specific index.
+
+    Args:
+        fromdate (str): Start date for retrieval (YYYYMMDD)
+        todate   (str): End date for retrieval (YYYYMMDD)
+        ticker   (str): Index ticker symbol (e.g., 1001 for KOSPI, 2001 for KOSDAQ)
+        freq     (str, optional): d - daily / m - monthly / y - yearly. Defaults to 'd'.
+
+    Returns:
+        DataFrame:
+            >> get_index_ohlcv("20210101", "20210130", "1001")
+                           Open     High      Low    Close       Volume    Trading Value
+            Date
+            2021-01-04  2874.50  2946.54  2869.11  2944.45  1026510465  25011393960858
+            2021-01-05  2943.67  2990.57  2921.84  2990.57  1519911750  26548380179493
+            2021-01-06  2993.34  3027.16  2961.37  2968.21  1793418534  29909396443430
+            2021-01-07  2980.75  3055.28  2980.75  3031.68  1524654500  27182807334912
+            2021-01-08  3040.11  3161.11  3040.11  3152.18  1297903388  40909490005818
+    """
+
+    # Validate and convert date format
+    def validate_date(date_str: Union[str, int]) -> str:
+        try:
+            if isinstance(date_str, int):
+                date_str = str(date_str)
+            if '-' in date_str:
+                parsed_date = datetime.strptime(date_str, '%Y-%m-%d')
+                return parsed_date.strftime('%Y%m%d')
+            datetime.strptime(date_str, '%Y%m%d')
+            return date_str
+        except ValueError:
+            raise ValueError(f"Date must be in YYYYMMDD format. Input value: {date_str}")
+
+    def validate_ticker(ticker_str: Union[str, int]) -> str:
+        if isinstance(ticker_str, int):
+            return str(ticker_str)
+        return ticker_str
+
+    def validate_freq(freq_str: str) -> str:
+        valid_freqs = ['d', 'm', 'y']
+        if freq_str not in valid_freqs:
+            raise ValueError(f"Frequency must be one of {valid_freqs}. Input value: {freq_str}")
+        return freq_str
+
+    try:
+        fromdate = validate_date(fromdate)
+        todate = validate_date(todate)
+        ticker = validate_ticker(ticker)
+        freq = validate_freq(freq)
+
+        logging.debug(f"Retrieving index OHLCV data: {ticker}, {fromdate}-{todate}, freq={freq}")
+
+        # Call get_index_ohlcv_by_date
+        # Note: name_display is set to False to match the pattern of other functions
+        df = get_index_ohlcv_by_date(fromdate, todate, ticker, freq=freq, name_display=False)
+
+        # Convert DataFrame to dictionary
+        result = df.to_dict(orient='index')
+
+        # Convert datetime index to string and sort in reverse
+        sorted_items = sorted(
+            ((k.strftime('%Y-%m-%d'), v) for k, v in result.items()),
+            reverse=True
+        )
+        result = dict(sorted_items)
+
+        return result
+
+    except Exception as e:
+        error_message = f"Data retrieval failed: {str(e)}"
+        logging.error(error_message)
+        return {"error": error_message}
+
+
 def main():
     mcp.run()
+
 
 if __name__ == "__main__":
     main()
