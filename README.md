@@ -1,3 +1,10 @@
+[![Add to Cursor](https://fastmcp.me/badges/cursor_dark.svg)](https://fastmcp.me/MCP/Details/563/kospikosdaq-stock-data)
+[![Add to VS Code](https://fastmcp.me/badges/vscode_dark.svg)](https://fastmcp.me/MCP/Details/563/kospikosdaq-stock-data)
+[![Add to Claude](https://fastmcp.me/badges/claude_dark.svg)](https://fastmcp.me/MCP/Details/563/kospikosdaq-stock-data)
+[![Add to ChatGPT](https://fastmcp.me/badges/chatgpt_dark.svg)](https://fastmcp.me/MCP/Details/563/kospikosdaq-stock-data)
+[![Add to Codex](https://fastmcp.me/badges/codex_dark.svg)](https://fastmcp.me/MCP/Details/563/kospikosdaq-stock-data)
+[![Add to Gemini](https://fastmcp.me/badges/gemini_dark.svg)](https://fastmcp.me/MCP/Details/563/kospikosdaq-stock-data)
+
 [![MseeP.ai Security Assessment Badge](https://mseep.net/pr/dragon1086-kospi-kosdaq-stock-server-badge.png)](https://mseep.ai/app/dragon1086-kospi-kosdaq-stock-server)
 
 # kospi-kosdaq-stock-server
